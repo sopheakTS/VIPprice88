@@ -2,7 +2,7 @@
 <html lang="km">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>តារាងតម្លៃបោះដុំនិងលក់រាយ 零售批发价 - DADING SHOP</title>
     
     <!-- Tailwind CSS -->
@@ -12,139 +12,177 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         body { 
             font-family: 'Kantumruy Pro', 'Noto Sans SC', sans-serif; 
-            background-color: #f3f4f6;
+            background-color: #f8fafc;
             -webkit-tap-highlight-color: transparent;
             scroll-behavior: smooth;
         }
-        /* បង្ខំឱ្យប្រអប់ជ្រើសរើស និង Option ទាំងអស់ប្រើប្រាស់ Font Kantumruy Pro */
         select, option, input, button {
             font-family: 'Kantumruy Pro', 'Noto Sans SC', sans-serif !important;
         }
         .category-item.active { 
-            background-color: #111827 !important; 
-            color: white !important; 
-            border-color: #111827 !important;
-            box-shadow: 0 4px 6px -1px rgba(17, 24, 39, 0.2); 
+            background-color: #0f172a !important; 
+            color: #ffffff !important; 
+            border-color: #0f172a !important;
+            box-shadow: 0 4px 10px -2px rgba(15, 23, 42, 0.3); 
         }
         .product-card { 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
-        
-        .product-card:hover { 
-            transform: translateY(-2px); 
-            border-color: #f97316; 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        @media (min-width: 768px) {
+            .product-card:hover { 
+                transform: translateY(-3px); 
+                border-color: #f97316; 
+                box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+            }
         }
         @keyframes zoomIn {
             from { transform: scale(0.95); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
         .animate-zoom { animation: zoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
     </style>
 </head>
-<body class="flex flex-col h-screen overflow-hidden bg-gray-50">
+<body class="flex flex-col h-screen overflow-hidden bg-slate-50 text-slate-800">
     <!-- HEADER -->
-    <header class="bg-gray-900 text-white shadow-lg z-40 shrink-0">
-        <div class="flex items-center justify-between px-4 md:px-6 py-3.5 max-w-7xl mx-auto w-full">
+    <header class="bg-slate-900 text-white shadow-md z-40 shrink-0 border-b border-slate-800">
+        <div class="flex items-center justify-between px-3 md:px-6 py-2.5 max-w-7xl mx-auto w-full">
             <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 bg-red-500 rounded-full flex items-center justify-center font-extrabold text-base shadow-md">D</div>
+                <div class="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-tr from-red-600 to-orange-500 rounded-xl flex items-center justify-center font-extrabold text-lg text-white shadow-md">D</div>
                 <div>
-                    <h1 class="font-extrabold text-base sm:text-lg leading-none tracking-tight">DADING SHOP</h1>
-                    <p class="text-[9px] sm:text-[10px] text-gray-400 font-medium tracking-wide mt-1">តារាងតម្លៃបោះដុំនិងលក់រាយ 零售批发价</p>
+                    <h1 class="font-extrabold text-sm sm:text-base leading-tight tracking-tight text-white">DADING SHOP</h1>
+                    <p class="text-[9px] sm:text-[10px] text-slate-400 font-medium tracking-wide">តារាងតម្លៃបោះដុំនិងលក់រាយ 零售批发价</p>
                 </div>
             </div>
             <!-- ប៊ូតុងទំនាក់ទំនងផ្នែកលក់ -->
-            <button onclick="openContactModal()" class="py-2 px-3 sm:px-4 bg-gray-800 hover:bg-gray-700 text-green-400 rounded-xl transition flex items-center gap-1.5 text-xs font-bold border border-gray-700/50 shadow-inner">
-                <i class="fa-brands fa-telegram text-lg sm:text-xl"></i>
+            <button onclick="openContactModal()" class="py-1.5 px-3 sm:px-4 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-xl transition flex items-center gap-1.5 text-xs font-semibold border border-slate-700 shadow-sm active:scale-95">
+                <i class="fa-brands fa-telegram text-base sm:text-lg"></i>
                 <span class="hidden sm:inline">ទំនាក់ទំនងផ្នែកលក់</span>
                 <span class="inline sm:hidden">ទំនាក់ទំនង</span>
             </button>
         </div>
     </header>
+
     <!-- SEARCH CONTAINER -->
-    <div class="bg-gray-50 border-b border-gray-200/50 py-3 px-4 md:px-6 shrink-0">
+    <div class="bg-white border-b border-slate-200 py-2.5 px-3 md:px-6 shrink-0 shadow-sm">
         <div class="max-w-7xl mx-auto w-full">
             <div class="relative group w-full md:max-w-md">
-                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm"></i>
                 <input type="text" id="search-box" 
                        placeholder="ស្វែងរកឈ្មោះ ឬលេខកូដ... 搜索名称或代码……" 
-                       class="w-full pl-10 pr-4 py-3 rounded-2xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-400/20 outline-none text-sm font-medium transition-all shadow-sm bg-white"
+                       class="w-full pl-9 pr-8 py-2 sm:py-2.5 rounded-xl border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-400/20 outline-none text-xs sm:text-sm font-medium transition-all bg-slate-50/50 focus:bg-white"
                        oninput="handleSearch()">
+                <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-circle-xmark text-xs sm:text-sm"></i>
+                </button>
             </div>
         </div>
     </div>
+
     <!-- MAIN APP STRUCTURE -->
     <div class="flex flex-1 overflow-hidden max-w-7xl mx-auto w-full">
         
-        <!-- SIDEBAR ( w-[110px] លើទូរស័ព្ទ និង w-64 លើកុំព្យូទ័រ) -->
-        <aside id="category-bar" class="w-[110px] md:w-64 bg-gray-100/30 border-r border-gray-200/80 overflow-y-auto p-2 md:p-3.5 shrink-0">
-            <div class="text-[9px] md:text-[10px] font-bold text-gray-400 mb-3 px-1 md:px-2 uppercase tracking-widest border-b pb-1.5">ប្រភេទ 类别</div>
-            <div id="category-list" class="space-y-1 md:space-y-1.5">
-                <!-- dynamic categories -->
+        <!-- SIDEBAR Categories (កែសម្រួលទំហំឱ្យល្មមស្អាតលើ Mobile មិនទើសភ្នែក) -->
+        <aside id="category-bar" class="w-20 sm:w-28 md:w-60 bg-white border-r border-slate-200/80 overflow-y-auto p-1.5 sm:p-2 md:p-3 shrink-0 select-none">
+            <div class="text-[9px] md:text-[10px] font-bold text-slate-400 mb-2 px-1 uppercase tracking-wider border-b border-slate-100 pb-1 hidden sm:block">ប្រភេទ 类别</div>
+            <div id="category-list" class="space-y-1">
+                <!-- Dynamic categories loading... -->
+                <div class="animate-pulse space-y-1">
+                    <div class="h-8 bg-slate-100 rounded-lg"></div>
+                    <div class="h-8 bg-slate-100 rounded-lg"></div>
+                    <div class="h-8 bg-slate-100 rounded-lg"></div>
+                </div>
             </div>
         </aside>
-        <!-- PRODUCTS GRID (លើទូរស័ព្ទបង្ហាញ ២ ជួរ grid-cols-2 រៀបចំតម្លៃ និង QR បញ្ឈរឱ្យស្អាតទូលាយ) -->
-        <main id="app-container" class="flex-1 overflow-y-auto p-2 md:p-4 space-y-8 bg-gray-50">
+
+        <!-- PRODUCTS GRID ( grid-cols-2 លើទូរស័ព្ទ រូបភាពសមមាត្រ aspect-square មិនរីកធំខុសទម្រង់) -->
+        <main id="app-container" class="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4 space-y-6 bg-slate-50">
             <!-- Dynamic products grouped by category go here -->
+            <div class="flex flex-col items-center justify-center h-64 text-slate-400">
+                <i class="fa-solid fa-spinner fa-spin text-2xl text-orange-500 mb-2"></i>
+                <p class="text-xs font-medium">កំពុងផ្ទុកទិន្នន័យ... 正在加载数据...</p>
+            </div>
         </main>
         
     </div>
+
     <!-- TELEGRAM CONTACT MODAL -->
-    <div id="contact-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden z-[110] flex items-center justify-center p-4">
-        <div class="bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl w-full max-w-sm p-5 shadow-2xl relative animate-zoom">
+    <div id="contact-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden z-[110] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm p-5 shadow-2xl relative animate-zoom border border-slate-100">
             <!-- Close Button -->
-            <button onclick="closeContactModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl w-8 h-8 rounded-full flex items-center justify-center bg-white/60 border border-white/30 transition-colors">
+            <button onclick="closeContactModal()" class="absolute top-3.5 right-3.5 text-slate-400 hover:text-slate-600 text-lg w-8 h-8 rounded-full flex items-center justify-center bg-slate-100 transition-colors">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             
             <!-- Modal Header -->
             <div class="text-center mb-5">
-                <h2 class="text-lg font-bold text-gray-900">ទំនាក់ទំនងមកយើងខ្ញុំ</h2>
-                <p class="text-xs text-gray-500 mt-1">សូមជ្រើសរើសគណនីតេឡេក្រាមខាងក្រោម</p>
+                <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-2">
+                    <i class="fa-brands fa-telegram"></i>
+                </div>
+                <h2 class="text-base font-bold text-slate-900">ទំនាក់ទំនងមកយើងខ្ញុំ</h2>
+                <p class="text-xs text-slate-500 mt-0.5">សូមជ្រើសរើសគណនីតេឡេក្រាមខាងក្រោម</p>
             </div>
             
             <!-- Telegram Accounts List -->
-            <div class="space-y-4">
-                <!-- Official Account -->
+            <div class="space-y-3">
                 <div>
-                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-2">គណនីផ្លូវការ (Official Account)</span>
-                    <a href="https://t.me/dading_boss" target="_blank" class="w-full bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white py-3 px-4 rounded-2xl font-bold flex items-center justify-between shadow-md active:scale-95 transition-all text-sm">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">គណនីផ្លូវការ (Official Account)</span>
+                    <a href="https://t.me/dading_boss" target="_blank" class="w-full bg-sky-500 hover:bg-sky-600 text-white py-2.5 px-3.5 rounded-xl font-bold flex items-center justify-between shadow-sm active:scale-95 transition-all text-xs">
                         <span class="flex items-center gap-2">
-                            <i class="fa-brands fa-telegram text-xl"></i>
+                            <i class="fa-brands fa-telegram text-lg"></i>
                             DADING Boss
                         </span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-75"></i>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-80"></i>
                     </a>
                 </div>
                 
-                <!-- Sales Agents -->
                 <div>
-                        <!-- Agent 1 -->
-                        <a href="https://t.me/DaDingStore_Media" target="_blank" class="w-full bg-white/50 hover:bg-white/80 border border-white/40 text-gray-800 py-2.5 px-3 rounded-xl font-semibold flex items-center gap-3 active:scale-95 transition-all text-xs">
-                            <div class="w-7 h-7 bg-red-100 text-red-600 rounded-lg flex items-center justify-center font-bold">១</div>
-                            <span class="flex-grow text-left">ស្វែងយល់បន្ថែមពីផលិតផល</span>
-                            <i class="fa-brands fa-telegram text-lg text-blue-500"></i>
-                        </a>
-                    </div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">ផ្នែកលក់ និងព័ត៌មានបន្ថែម</span>
+                    <a href="https://t.me/DaDingStore_Media" target="_blank" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 py-2.5 px-3.5 rounded-xl font-semibold flex items-center justify-between active:scale-95 transition-all text-xs border border-slate-200/60">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-brands fa-telegram text-base text-sky-500"></i>
+                            DaDing Store Media
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- TOAST -->
-    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 z-[110] transform translate-y-20 opacity-0 transition-all duration-300 w-max max-w-[90%]">
-        <i class="fa-solid fa-circle-check text-green-400"></i>
-        <span id="toast-msg" class="text-sm font-medium">ជោគជ័យ</span>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2.5 z-[110] transform translate-y-20 opacity-0 transition-all duration-300 w-max max-w-[90%] text-xs border border-slate-800">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+        <span id="toast-msg" class="font-medium">ជោគជ័យ</span>
     </div>
+
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/1iXLoDPlNtwBr-jfIR8Nd73dxarb9kfv5o3r3MCRCqIo/gviz/tq?tqx=out:csv';
         let allData = [];
         let currentCategory = 'ទាំងអស់ 全部';
-        // មុខងារកែតម្រូវតំណភ្ជាប់រូបភាព Google Drive ឱ្យបង្ហាញផ្ទាល់
+
+        /* មុខងារកែប្រែតំណភ្ជាប់ Google Drive ឱ្យទាញយករូបភាពផ្ទាល់បានលឿន និងច្បាស់ល្អ */
         function formatImageUrl(url) {
             if (!url) return '';
             let cleanUrl = url.trim();
@@ -157,42 +195,53 @@
                     id = cleanUrl.split('/file/d/')[1].split('/')[0];
                 }
                 if (id) {
-                    return `https://docs.google.com/uc?export=download&id=${id}`;
+                    // លីងផ្លូវការសម្រាប់ Bypassing Google Drive view constraint
+                    return `https://lh3.googleusercontent.com/d/${id}`;
                 }
             }
             return cleanUrl;
         }
+
+        /* មុខងារទាញយកទិន្នន័យពី Google Sheets */
         async function fetchSheetData() {
             try {
                 const response = await fetch(CSV_URL);
+                if (!response.ok) throw new Error('Network error');
                 const data = await response.text();
                 const lines = data.split('\n');
                 
                 allData = lines.slice(1).filter(line => line.trim() !== "").map(line => {
                     const row = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim());
                     return { 
-                        name: row[0] || '',
-                        code: row[1] || '',
+                        name: row[0] || 'គ្មានឈ្មោះ',
+                        code: row[1] || '-',
                         variant: row[2] || '',
                         salePrice: row[3] || '0',
                         vipPrice: row[4] || '0',
                         category: row[5] || 'ផ្សេងៗ',
                         inStock: row[6] !== '0', 
-                        priceUpdate: row[7] || '0', // 0 or 1
-                        newStock: row[8] || '0',
+                        priceUpdate: row[7] === '1', // boolean
+                        newStock: row[8] === '1',    // boolean
                         image: formatImageUrl(row[10] || ''),
-   
                     };
                 });
+
                 renderCategories();
                 renderProductList(allData);
             } catch (e) {
                 console.error("កំហុសក្នុងការអានទិន្នន័យ:", e);
-                document.getElementById('app-container').innerHTML = '<div class="col-span-full text-center text-red-500 p-4">មិនអាចផ្ទុកទិន្នន័យបាន។</div>';
+                document.getElementById('app-container').innerHTML = `
+                    <div class="col-span-full text-center text-red-500 py-12 px-4 bg-white rounded-2xl border border-red-100 shadow-sm">
+                        <i class="fa-solid fa-circle-exclamation text-3xl mb-2 text-red-400"></i>
+                        <p class="text-xs font-semibold">មិនអាចផ្ទុកទិន្នន័យបានទេ។ សូមពិនិត្យមើលអ៊ីនធឺណិត ឬសាកល្បងម្ដងទៀត!</p>
+                        <button onclick="fetchSheetData()" class="mt-3 px-4 py-1.5 bg-red-50 text-red-600 rounded-lg text-xs font-bold border border-red-200 active:scale-95">សាកល្បងឡើងវិញ</button>
+                    </div>`;
             }
         }
+
+        /* មុខងារបង្ហាញបញ្ជីប្រភេទទំនិញ (Categories) */
         function renderCategories() {
-            const uniqueCats = [...new Set(allData.map(i => i.category))];
+            const uniqueCats = [...new Set(allData.map(i => i.category).filter(c => c))];
             const categories = ['ទាំងអស់ 全部', 'ទំនិញថ្មី 新货', ...uniqueCats];
             
             const catList = document.getElementById('category-list');
@@ -200,105 +249,142 @@
                 catList.innerHTML = categories.map(cat => {
                     const isActive = cat === currentCategory;
                     return `
-                    <button onclick="filter('${cat}', this)" class="category-item w-full text-left px-2 md:px-3 py-2 md:py-2.5 text-[10px] md:text-xs lg:text-sm rounded-lg md:rounded-xl font-semibold text-gray-700 transition-all flex items-center border border-gray-100 bg-white hover:bg-gray-50 shadow-sm ${isActive ? 'active' : ''}" data-cat="${cat}">
-                        <i class="fa-solid fa-folder text-amber-400 mr-1.5 md:mr-2 text-xs md:text-sm shrink-0"></i>
-                        <span class="truncate">${cat}</span>
+                    <button onclick="filter('${cat}', this)" 
+                            class="category-item w-full text-left px-2 sm:px-2.5 py-2 text-[10px] sm:text-xs font-medium rounded-xl transition-all flex items-center justify-between border ${isActive ? 'active' : 'border-transparent text-slate-600 hover:bg-slate-100'}" 
+                            data-cat="${cat}">
+                        <span class="truncate leading-tight">${cat}</span>
                     </button>
                     `;
                 }).join('');
             }
         }
+
+        /* មុខងារចម្រោះប្រភេទទំនិញ */
         function filter(cat, btn) {
             currentCategory = cat;
             
             document.querySelectorAll('.category-item').forEach(el => {
                 el.classList.remove('active');
-                el.className = "category-item w-full text-left px-2 md:px-3 py-2 md:py-2.5 text-[10px] md:text-xs lg:text-sm rounded-lg md:rounded-xl font-semibold text-gray-700 transition-all flex items-center border border-gray-100 bg-white hover:bg-gray-50 shadow-sm";
+                el.className = "category-item w-full text-left px-2 sm:px-2.5 py-2 text-[10px] sm:text-xs font-medium rounded-xl transition-all flex items-center justify-between border border-transparent text-slate-600 hover:bg-slate-100";
                 if (el.getAttribute('data-cat') === cat) {
                     el.classList.add('active');
-                    el.className = "category-item active w-full text-left px-2 md:px-3 py-2 md:py-2.5 text-[10px] md:text-xs lg:text-sm rounded-lg md:rounded-xl font-semibold text-white transition-all flex items-center border border-transparent shadow-sm";
+                    el.className = "category-item active w-full text-left px-2 sm:px-2.5 py-2 text-[10px] sm:text-xs font-medium rounded-xl transition-all flex items-center justify-between border shadow-sm";
                 }
             });
             handleSearch();
         }
+
+        /* មុខងារស្វែងរក Search */
         function handleSearch() {
-            const searchTerm = document.getElementById('search-box').value.toLowerCase().trim();
+            const searchInput = document.getElementById('search-box');
+            const clearBtn = document.getElementById('clear-search');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+
+            if (searchTerm.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
             const filtered = allData.filter(item => {
                 let matchesCategory = (currentCategory === 'ទាំងអស់ 全部') ? true : 
-                                     (currentCategory === 'ទំនិញថ្មី 新货') ? (item.newStock === '1') : 
+                                     (currentCategory === 'ទំនិញថ្មី 新货') ? item.newStock : 
                                      (item.category === currentCategory);
                 const matchesSearch = (item.name.toLowerCase().includes(searchTerm) || item.code.toLowerCase().includes(searchTerm));
                 return matchesCategory && matchesSearch;
             });
             renderProductList(filtered);
         }
+
+        function clearSearch() {
+            document.getElementById('search-box').value = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            handleSearch();
+        }
+
+        /* មុខងារបង្ហាញបញ្ជីទំនិញ (Render Product Grid) */
         function renderProductList(items) {
             const container = document.getElementById('app-container');
             container.innerHTML = '';
-            // បែងចែកទំនិញជាក្រុមតាមប្រភេទផលិតផល (Category) ដើម្បីបង្ហាញចំណងជើងផ្នែក (Section Header) ដូចរូបភាព
-            const groups = {};
-            items.forEach(item => {
-                const cat = item.category || 'ផ្សេងៗ';
-                if (!groups[cat]) {
-                    groups[cat] = [];
-                }
-                groups[cat].push(item);
-            });
-            const categories = Object.keys(groups);
-            if (categories.length === 0) {
+
+            if (!items || items.length === 0) {
                 container.innerHTML = `
-                <div class="col-span-full text-center text-gray-400 py-12 flex flex-col items-center justify-center">
-                    <i class="fa-solid fa-box-open text-4xl mb-2"></i>
-                    <p class="text-sm font-medium">រកមិនឃើញទំនិញទេ 找不到商品</p>
+                <div class="text-center text-slate-400 py-16 flex flex-col items-center justify-center">
+                    <i class="fa-solid fa-box-open text-4xl mb-3 text-slate-300"></i>
+                    <p class="text-xs font-medium">រកមិនឃើញទំនិញទេ 找不到商品</p>
                 </div>`;
                 return;
             }
-            categories.forEach(cat => {
+
+            // បែងចែកទំនិញជាក្រុមតាម Category
+            const groups = {};
+            items.forEach(item => {
+                const cat = item.category || 'ផ្សេងៗ';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(item);
+            });
+
+            Object.keys(groups).forEach(cat => {
                 const sectionItems = groups[cat];
                 const sectionDiv = document.createElement('div');
-                sectionDiv.className = "space-y-3 mt-2 first:mt-0";
+                sectionDiv.className = "space-y-2.5";
                 
                 sectionDiv.innerHTML = `
-                    <!-- Category Section Title -->
-                    <div class="border-l-4 border-red-500 pl-2 py-0.5 mb-3">
-                        <h2 class="text-sm md:text-base font-bold text-gray-800">${cat}</h2>
+                    <!-- Category Title -->
+                    <div class="flex items-center gap-2 border-l-4 border-orange-500 pl-2 py-0.5">
+                        <h2 class="text-xs sm:text-sm font-bold text-slate-800">${cat}</h2>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-200/60 px-1.5 py-0.2 rounded-md">${sectionItems.length}</span>
                     </div>
-                    <!-- Product Grid (លើទូរស័ព្ទ grid-cols-2 គម្លាត gap-2 លើកុំព្យូទ័រ grid-cols-3 ឬ grid-cols-4) -->
-                    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-3.5">
+
+                    <!-- Grid Layout : 2 columns on Mobile, 3-4 on Desktop -->
+                    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
                         ${sectionItems.map(item => {
-                            const index = allData.indexOf(item);
-                            const isNew = item.newStock === '1';
-                            const isNewPrice = item.priceUpdate === '1';
                             const isOutOfStock = !item.inStock;
                             return `
-                            <div class="product-card bg-white p-2 md:p-3 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md ${isOutOfStock ? 'opacity-65 grayscale' : ''}">
+                            <div class="product-card bg-white p-2 sm:p-2.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between relative ${isOutOfStock ? 'opacity-65' : ''}">
                                 
-                                <!-- Product Image Container -->
-                                <div class="relative aspect-square w-full rounded-xl overflow-hidden bg-gray-50 border border-gray-50/50 mb-2 group">
-                                    ${item.image ? 
-                                        `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x400/f3f4f6/9ca3af?text=No+Image'">` : 
-                                        `<div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400"><i class="fa-solid fa-image text-2xl"></i></div>`
-                                    }
+                                <div>
+                                    <!-- Product Image (Aspect Square) -->
+                                    <div class="relative aspect-square w-full rounded-xl overflow-hidden bg-slate-100 border border-slate-100 mb-2 group">
+                                        ${item.image ? 
+                                            `<img src="${item.image}" 
+                                                  alt="${item.name}" 
+                                                  loading="lazy"
+                                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                                                  onerror="this.onerror=null; this.src='https://placehold.co/300x300/f1f5f9/94a3b8?text=No+Image';">` : 
+                                            `<div class="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-300"><i class="fa-solid fa-image text-2xl"></i></div>`
+                                        }
+                                        
+                                        <!-- Status Badges Overlay -->
+                                        <div class="absolute top-1 left-1 flex flex-col gap-1 z-10 pointer-events-none">
+                                            ${item.newStock ? '<span class="text-[8px] font-bold text-white bg-red-500 px-1.5 py-0.5 rounded-md shadow-sm">新货 អីវ៉ាន់ថ្មី</span>' : ''}
+                                            ${item.priceUpdate ? '<span class="text-[8px] font-bold text-white bg-blue-500 px-1.5 py-0.5 rounded-md shadow-sm">新价 តម្លៃថ្មី</span>' : ''}
+                                            ${isOutOfStock ? '<span class="text-[8px] font-bold text-white bg-slate-700 px-1.5 py-0.5 rounded-md shadow-sm">没货 អស់ស្តុក</span>' : ''}
+                                        </div>
+                                    </div>
+
+                                    <!-- Product Info -->
+                                    <h3 class="font-bold text-slate-800 text-[11px] sm:text-xs leading-snug line-clamp-2 h-7 sm:h-8 mb-1" title="${item.name}">${item.name}</h3>
                                     
-                                    <!-- Status Badges Overlay -->
-                                    <div class="absolute top-1.5 left-1.5 flex flex-col gap-1 z-10">
-                                        ${isNew ? '<span class="text-[8px] md:text-[9px] font-extrabold text-white bg-red-600 px-1.5 py-0.5 rounded-lg shadow-sm">新货 អីវ៉ាន់ថ្មី</span>' : ''}
-                                        ${isNewPrice ? '<span class="text-[8px] md:text-[9px] font-extrabold text-white bg-blue-600 px-1.5 py-0.5 rounded-lg shadow-sm">新价 តម្លៃថ្មី</span>' : ''}
-                                        ${isOutOfStock ? '<span class="text-[8px] md:text-[9px] font-extrabold text-white bg-gray-600 px-1.5 py-0.5 rounded-lg shadow-sm">没货 អស់ស្តុក</span>' : ''}
+                                    <div class="flex items-center justify-between text-[9px] sm:text-[10px] text-slate-400 mb-1.5">
+                                        <span class="truncate">${item.variant || '-'}</span>
+                                        <span class="font-mono text-orange-600 bg-orange-50 px-1 rounded border border-orange-100 shrink-0">ID: ${item.code}</span>
                                     </div>
                                 </div>
-                                <!-- Product Info -->
-                                <div class="flex-1 flex flex-col justify-between">
-                                    <div>
-                                        <h3 class="font-bold text-gray-900 text-[10px] sm:text-xs md:text-sm line-clamp-2 leading-snug h-8 sm:h-9 md:h-10 mb-0.5">${item.name}</h3>
-                                        <p class="text-[9px] sm:text-[10px] md:text-xs text-gray-400 font-medium truncate mb-1">${item.variant || '-'}</p>
+
+                                <!-- Price Section -->
+                                <div class="pt-1.5 border-t border-slate-100 mt-auto">
+                                    <div class="flex items-baseline justify-between">
+                                        <span class="text-[9px] text-slate-400">តម្លៃរាយ:</span>
+                                        <span class="text-xs sm:text-sm font-extrabold text-slate-900">$${item.salePrice}</span>
                                     </div>
-                                    
-                                    <div class="flex items-center gap-1.5 mb-2.5 flex-wrap">
-                                        <span class="text-[8px] sm:text-[9px] font-bold text-orange-600 bg-orange-50 border border-orange-100/50 px-1.5 py-0.5 rounded-md">ID: ${item.code}</span>
-                                    </div>
+                                    ${item.vipPrice && item.vipPrice !== '0' ? `
+                                    <div class="flex items-baseline justify-between text-orange-600 font-semibold">
+                                        <span class="text-[9px]">តម្លៃបោះដុំ:</span>
+                                        <span class="text-xs sm:text-sm font-black">$${item.vipPrice}</span>
+                                    </div>` : ''}
                                 </div>
-                                </div>
+
                             </div>
                             `;
                         }).join('')}
@@ -306,35 +392,24 @@
                 `;
                 container.appendChild(sectionDiv);
             });
-            // បង្កើត QR code បន្ទាប់ពី Render HTML រួច
-            items.forEach((item) => {
-                const index = allData.indexOf(item);
-                if (item.qrLink) {
-                    const qrContainer = document.getElementById(`qrcode-${index}`);
-                    if (qrContainer) {
-                        qrContainer.innerHTML = '';
-                        new QRCode(qrContainer, { text: item.qrLink, width: 38, height: 38 });
-                    }
-                }
-            });
         }
-        /* មុខងារគ្រប់គ្រង CONTACT MODAL */
+
+        /* មុខងារគ្រប់គ្រង Contact Modal */
         function openContactModal() {
-            const modal = document.getElementById('contact-modal');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            document.getElementById('contact-modal').classList.remove('hidden');
         }
         function closeContactModal() {
-            const modal = document.getElementById('contact-modal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
+            document.getElementById('contact-modal').classList.add('hidden');
         }
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = message;
             toast.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
         }
+
+        // ចាប់ផ្តើមទាញយកទិន្នន័យនៅពេលទំព័រ Load
         window.onload = fetchSheetData;
     </script>
 </body>
