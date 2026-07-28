@@ -181,7 +181,7 @@
                         priceUpdate: row[7] || '0', // 0 or 1
                         newStock: row[8] || '0',
                         image: formatImageUrl(row[10] || ''),
-                        qrLink: row[11] || ''
+   
                     };
                 });
                 renderCategories();
@@ -298,22 +298,6 @@
                                         <span class="text-[8px] sm:text-[9px] font-bold text-orange-600 bg-orange-50 border border-orange-100/50 px-1.5 py-0.5 rounded-md">ID: ${item.code}</span>
                                     </div>
                                 </div>
-                                <!-- Prices & QR Code (រៀបចំបញ្ឈរលើទូរស័ព្ទ ផ្តេកលើកុំព្យូទ័រ ដើម្បីកុំឱ្យចង្អៀត) -->
-                                <div class="border-t border-gray-100 pt-2 flex flex-col md:flex-row md:items-center md:justify-between gap-2 mt-auto text-center md:text-left">
-                                    <div class="flex flex-col gap-0.5">
-                                        <div class="text-[9px] sm:text-[10px] md:text-xs text-gray-500 font-medium">
-                                            លក់រាយ 零售: <span class="text-red-600 font-bold text-[10px] sm:text-xs md:text-sm block sm:inline">${item.salePrice}</span>
-                                        </div>
-                                        <div class="text-[9px] sm:text-[10px] md:text-xs text-gray-500 font-medium">
-                                            VIP 价格: <span class="text-gray-900 font-bold text-[9px] sm:text-xs block sm:inline">${item.vipPrice}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- QR Code Container -->
-                                    ${item.qrLink ? 
-                                        `<div class="shrink-0 mx-auto md:mx-0 p-0.5 border border-gray-100 rounded-lg bg-white shadow-sm flex items-center justify-center" id="qrcode-${index}"></div>` : 
-                                        ''
-                                    }
                                 </div>
                             </div>
                             `;
