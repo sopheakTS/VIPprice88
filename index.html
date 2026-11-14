@@ -201,7 +201,8 @@
 
     <!-- JS Logic -->
     <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1Vcg9QyIhjtNtBeKrWRPE3q7yt3fEJbMqCKz2nubIc0U/export?format=csv'; 
+        // ប្រើ Link API ថ្មីដែលមានសុវត្ថិភាព (លាក់ Google Sheet ដើម 100%)
+        const API_URL = 'https://script.google.com/macros/s/AKfycbw-QihTeMYtZM0YqpS8MiEqa9Kqy5gZu1ijRX6zwOeHwVlYB0J3vCPfIw_PIXQNtXK3/exec'; 
         
         const COL_NAME_KM = 0; const COL_NAME_ZH = 1; const COL_CODE = 2; const COL_VARIANT = 4;
         const COL_SALE_PRICE = 5; const COL_VIP_PRICE = 6; const COL_BRAND = 8;
@@ -284,19 +285,12 @@
             }, 300);
         }, 4000);
 
-        function parseCSV(text) {
-            const lines = text.split('\n');
+        // បម្លែងទិន្នន័យ JSON ចេញពី API មកជាទម្រង់វេបសាយយល់
+        function parseJSONData(rows) {
             const result = [];
-            for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                const row = [];
-                let inQuotes = false, entry = '';
-                for (let char of lines[i]) {
-                    if (char === '"') inQuotes = !inQuotes;
-                    else if (char === ',' && !inQuotes) { row.push(entry.trim()); entry = ''; } 
-                    else entry += char;
-                }
-                row.push(entry.trim());
+            // ចាប់ផ្តើមពីជួរទី 1 (រំលងក្បាលតារាង)
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
                 if (row.length >= 2 && row[COL_NAME_KM]) {
                     result.push({
                         nameKm: row[COL_NAME_KM] || '', nameZh: row[COL_NAME_ZH] || '',
@@ -311,11 +305,12 @@
             return result;
         }
 
+        // ទាញយកទិន្នន័យតាមរយៈ API
         async function fetchGoogleSheetData() {
             try {
-                const response = await fetch(SHEET_CSV_URL);
-                const csvText = await response.text();
-                products = parseCSV(csvText);
+                const response = await fetch(API_URL);
+                const rawData = await response.json();
+                products = parseJSONData(rawData);
                 buildHomeGrids();
             } catch (error) { console.error('Error fetching data:', error); }
         }
