@@ -475,12 +475,20 @@
         }
 
         function generateProductCardHTML(p) {
-            const imgSrc = p.linkphoto || 'https://placehold.co/300?text=No+Image';
+ const imgSrc = p.linkphoto || 'https://placehold.co/300?text=No+Image';
             const displayName = currentLang === 'km' ? p.nameKm : p.nameZh;
             const displayVariant = translateVariant(p.variant) || (currentLang === 'km' ? 'ស្តង់ដារ' : '标准');
             const safeName = displayName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
             const safeVariantRaw = (p.variant || '').replace(/'/g, "\\'");
             const brandBadge = p.brand ? `<div class="w-8 h-8 rounded bg-blue-900 text-white flex items-center justify-center text-[9px] font-bold shadow">${p.brand.substring(0,4).toUpperCase()}</div>` : '';
+
+            // Format price to display with .00 and $
+            let displayPrice = '-';
+            if (p.salePrice && !isNaN(parseFloat(p.salePrice))) {
+                displayPrice = parseFloat(p.salePrice).toFixed(2) + ' $';
+            } else if (p.salePrice) {
+                 displayPrice = p.salePrice + ' $'; // Fallback if it's not a standard number
+            }
 
             return `<div class="bg-white rounded-2xl border border-slate-200 p-3 hover:shadow-xl hover:border-amber-300 transition-all flex flex-col justify-between cursor-pointer group" onclick="openModal('${imgSrc}', '${safeName}', '${p.code}', '${safeVariantRaw}')">
                 <div class="mb-3 bg-[#f8fafc] rounded-xl p-2 flex items-center justify-center h-32 md:h-44 relative overflow-hidden">
@@ -493,8 +501,7 @@
                 </div>
                 <div class="flex items-end justify-between mt-1 pt-2 border-t border-slate-100">
                     <div class="flex flex-col">
-                        ${p.salePrice ? `<span class="text-[10px] line-through text-slate-400 font-medium">${p.salePrice}</span>` : ''}
-                        <span class="font-black text-red-600 text-sm md:text-base">${p.vipPrice || p.salePrice || '-'}</span>
+                        <span class="font-black text-red-600 text-sm md:text-base">${displayPrice}</span>
                     </div>
                     ${brandBadge}
                 </div>
