@@ -201,8 +201,8 @@
     </div>
 
     <!-- JS Logic -->
+<!-- JS Logic -->
     <script>
-        // ប្រើ Link API ថ្មីដែលមានសុវត្ថិភាព (លាក់ Google Sheet ដើម 100%)
         const API_URL = 'https://script.google.com/macros/s/AKfycbw-QihTeMYtZM0YqpS8MiEqa9Kqy5gZu1ijRX6zwOeHwVlYB0J3vCPfIw_PIXQNtXK3/exec'; 
         
         const COL_NAME_KM = 0; const COL_NAME_ZH = 1; const COL_CODE = 2; const COL_VARIANT = 4;
@@ -226,14 +226,12 @@
         const modalImg = document.getElementById('modalImg');
         const modalTitle = document.getElementById('modalTitle');
 
-        // កំណត់ Link Poster ទាំង ៣
         const posters = [
             'https://i.ibb.co/1jqcdSd/POSTER1.webp', 
             'https://i.ibb.co/svfjbngW/POSTER2.webp',
             'https://i.ibb.co/cXs83BCs/POSTER3.webp'
         ];
 
-        // កំណត់ Link Logo សម្រាប់ Brand នីមួយៗ
         const brandLogos = {
             'BESTIR': 'https://i.ibb.co/FLcghtfq/bester-logo.webp',
             'COROLLA': 'https://i.ibb.co/5XJn2fRF/COROLLA-LOGO.webp',
@@ -243,7 +241,7 @@
 
         function translateVariant(variantStr) {
             if (currentLang === 'km' || !variantStr) return variantStr;
-            let translated = variantStr;
+            let translated = String(variantStr);
             const dict = { 'ប្រអប់': '盒', 'កំប៉ុង': '罐', 'កេស': '箱', 'កញ្ចប់': '包', 'បាវ': '袋' };
             for (let key in dict) translated = translated.split(key).join(dict[key]);
             return translated;
@@ -253,19 +251,15 @@
             currentLang = currentLang === 'km' ? 'zh' : 'km';
             document.getElementById('langToggleBtn').innerText = currentLang === 'km' ? '🇰🇭' : '🇨🇳';
             
-            // Header Menu & Home Titles
             document.getElementById('navHome').innerText = currentLang === 'km' ? 'ទំព័រដើម' : '首页';
             document.getElementById('navBrands').innerText = currentLang === 'km' ? 'ម៉ាកយីហោ' : '品牌';
             document.getElementById('navCategories').innerText = currentLang === 'km' ? 'ប្រភេទទំនិញ' : '类别';
             document.getElementById('navAbout').innerText = currentLang === 'km' ? 'អំពីយើង' : '关于我们';
             document.getElementById('breadcrumbHome').innerText = currentLang === 'km' ? 'ទំព័រដើម' : '首页';
-            
             document.getElementById('homeTitleBrand').innerText = currentLang === 'km' ? 'ម៉ាកយីហោ' : '品牌';
             document.getElementById('homeTitleCat').innerText = currentLang === 'km' ? 'ប្រភេទទំនិញ' : '类别';
-            
             searchInput.placeholder = currentLang === 'km' ? 'ស្វែងរក...' : '搜索...';
             
-            // About Us Page
             document.getElementById('aboutTitleHero').innerText = currentLang === 'km' ? 'អំពីយើង' : '关于我们';
             document.getElementById('aboutDesc').innerText = currentLang === 'km' ?
                 'ផ្តល់ជូននូវសម្ភារៈជាង ម៉ូទ័រ និងសម្ភារៈបន្ទប់ទឹកគ្រប់ប្រភេទ មានលក់ដុំ និងលក់រាយ ជាមួយនឹងតម្លៃសមរម្យ និងគុណភាពខ្ពស់។ យើងខ្ញុំប្តេជ្ញាផ្តល់ជូននូវសេវាកម្មដ៏ល្អឥតខ្ចោះដល់អតិថិជនគ្រប់រូប។' :
@@ -287,46 +281,59 @@
 
         let slideIdx = 0;
         setInterval(() => {
+            if (posters.length === 0) return;
             slideIdx = (slideIdx + 1) % posters.length;
             const imgEl = document.getElementById('sliderImg');
-            imgEl.style.opacity = 0;
-            setTimeout(() => {
-                imgEl.src = posters[slideIdx];
-                imgEl.style.opacity = 1;
-                const dots = document.getElementById('sliderDots').children;
-                for(let i=0; i<dots.length; i++){
-                    dots[i].className = i === slideIdx ? 'w-2.5 h-2.5 rounded-full bg-white shadow' : 'w-2.5 h-2.5 rounded-full bg-white/50 shadow';
-                }
-            }, 300);
+            if(imgEl) {
+                imgEl.style.opacity = 0;
+                setTimeout(() => {
+                    imgEl.src = posters[slideIdx];
+                    imgEl.style.opacity = 1;
+                    const dots = document.getElementById('sliderDots');
+                    if(dots) {
+                        const dotsChildren = dots.children;
+                        for(let i=0; i<dotsChildren.length; i++){
+                            dotsChildren[i].className = i === slideIdx ? 'w-2.5 h-2.5 rounded-full bg-white shadow' : 'w-2.5 h-2.5 rounded-full bg-white/50 shadow';
+                        }
+                    }
+                }, 300);
+            }
         }, 4000);
 
-        // បម្លែងទិន្នន័យ JSON ចេញពី API មកជាទម្រង់វេបសាយយល់
         function parseJSONData(rows) {
             const result = [];
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
                 if (row.length >= 2 && row[COL_NAME_KM]) {
                     result.push({
-                        nameKm: row[COL_NAME_KM] || '', nameZh: row[COL_NAME_ZH] || '',
-                        code: row[COL_CODE] || '', variant: row[COL_VARIANT] || '',
-                        salePrice: row[COL_SALE_PRICE] || '', vipPrice: row[COL_VIP_PRICE] || '',
-                        brand: row[COL_BRAND] || 'Other', categoryKm: row[COL_CATEGORY_KM] || 'Uncategorized',
-                        categoryZh: row[COL_CATEGORY_ZH] || (row[COL_CATEGORY_KM] || 'Uncategorized'),
-                        linkphoto: row[COL_PHOTO] || ''
+                        nameKm: String(row[COL_NAME_KM] || ''), nameZh: String(row[COL_NAME_ZH] || ''),
+                        code: String(row[COL_CODE] || ''), variant: String(row[COL_VARIANT] || ''),
+                        salePrice: String(row[COL_SALE_PRICE] || ''), vipPrice: String(row[COL_VIP_PRICE] || ''),
+                        brand: String(row[COL_BRAND] || 'Other'), categoryKm: String(row[COL_CATEGORY_KM] || 'Uncategorized'),
+                        categoryZh: String(row[COL_CATEGORY_ZH] || row[COL_CATEGORY_KM] || 'Uncategorized'),
+                        linkphoto: String(row[COL_PHOTO] || '')
                     });
                 }
             }
             return result;
         }
 
-        // ទាញយកទិន្នន័យតាមរយៈ API
         async function fetchGoogleSheetData() {
             try {
                 const response = await fetch(API_URL);
                 const rawData = await response.json();
+                
+                if (rawData && rawData.error) {
+                    alert("⚠️ បញ្ហាពីទិន្នន័យ (API): " + rawData.error);
+                    return;
+                }
+                
                 products = parseJSONData(rawData);
                 buildHomeGrids();
-            } catch (error) { console.error('Error fetching data:', error); }
+            } catch (error) { 
+                console.error('Error fetching data:', error);
+                alert("⚠️ មិនអាចទាញយកទិន្នន័យបានទេ! សូមឆែកអ៊ីនធឺណិត ឬ API Link។\n" + error.message);
+            }
         }
 
         function buildHomeGrids() {
@@ -345,11 +352,12 @@
             globalCatOrder = catOrder;
 
             document.getElementById('homeBrandsGrid').innerHTML = brandOrder.map(b => {
-                // ទាញយក Logo ពិតប្រាកដ ឬប្រើរូប Placeholder បើមិនមាន
-                const brandLogo = brandLogos[b.toUpperCase()] || `https://placehold.co/200x100/ffffff/0c1439?text=${b}`;
-                return `<div onclick="showBrand('${b}')" class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all group h-32">
-                    <img src="${brandLogo}" class="h-16 w-full object-contain mb-2 mix-blend-multiply group-hover:scale-105 transition" onerror="this.src='https://placehold.co/200x100?text=${b}'">
-                    <span class="font-bold text-xs text-slate-500 mt-1">${b}</span>
+                const safeB = String(b).trim();
+                const brandKey = safeB.toUpperCase();
+                const brandLogo = brandLogos[brandKey] || `https://placehold.co/200x100/ffffff/0c1439?text=${encodeURIComponent(safeB)}`;
+                return `<div onclick="showBrand(this.getAttribute('data-brand'))" data-brand="${safeB.replace(/"/g, '&quot;')}" class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all group h-32">
+                    <img src="${brandLogo}" class="h-16 w-full object-contain mb-2 mix-blend-multiply group-hover:scale-105 transition" onerror="this.src='https://placehold.co/200x100?text=${encodeURIComponent(safeB)}'">
+                    <span class="font-bold text-xs text-slate-500 mt-1">${safeB}</span>
                 </div>`;
             }).join('');
 
@@ -357,7 +365,7 @@
                 const c = catMap[catKey];
                 const img = c.img || 'https://placehold.co/200?text=Category';
                 const displayName = currentLang === 'km' ? c.kmName : c.zhName;
-                return `<div onclick="showCategory('${c.kmName}')" class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all group">
+                return `<div onclick="showCategory(this.getAttribute('data-cat'))" data-cat="${c.kmName.replace(/"/g, '&quot;')}" class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all group">
                     <img src="${img}" class="h-16 md:h-20 w-16 md:w-20 object-contain mb-3 mix-blend-multiply group-hover:scale-110 transition" onerror="this.src='https://placehold.co/200?text=IMG'">
                     <span class="font-extrabold text-sm text-slate-800 text-center line-clamp-1">${displayName}</span>
                 </div>`;
@@ -380,13 +388,13 @@
         }
 
         function showCategory(catKmName) {
-            currentFilterType = 'category'; currentFilterValue = catKmName; searchInput.value = '';
+            currentFilterType = 'category'; currentFilterValue = String(catKmName); searchInput.value = '';
             homeView.classList.add('hidden'); aboutView.classList.add('hidden'); productView.classList.remove('hidden');
             window.scrollTo({top: 0}); updateSidebarInfo(); filterData();
         }
 
         function showBrand(brandName) {
-            currentFilterType = 'brand'; currentFilterValue = brandName; searchInput.value = '';
+            currentFilterType = 'brand'; currentFilterValue = String(brandName); searchInput.value = '';
             homeView.classList.add('hidden'); aboutView.classList.add('hidden'); productView.classList.remove('hidden');
             window.scrollTo({top: 0}); updateSidebarInfo(); filterData();
         }
@@ -400,8 +408,8 @@
                 if (sample && sample.linkphoto) iconSrc = sample.linkphoto;
             } else if (currentFilterType === 'brand') {
                 title = currentFilterValue; subtitle = currentLang === 'km' ? 'ម៉ាកយីហោ' : '品牌';
-                // ប្រើ Logo ពិតនៅពេលបង្ហាញ Sidebar នៃ Brand នោះ
-                iconSrc = brandLogos[currentFilterValue.toUpperCase()] || `https://placehold.co/200x100/ffffff/0c1439?text=${currentFilterValue}`;
+                const safeBrand = String(currentFilterValue).trim().toUpperCase();
+                iconSrc = brandLogos[safeBrand] || `https://placehold.co/200x100/ffffff/0c1439?text=${encodeURIComponent(currentFilterValue)}`;
             } else if (currentFilterType === 'search') {
                 title = currentLang === 'km' ? 'លទ្ធផលស្វែងរក' : '搜索结果'; subtitle = searchInput.value;
             }
@@ -493,7 +501,6 @@
             </div>`;
         }
         
-        // Navigation Buttons (Next / Previous)
         function renderBottomNav() {
             const bottomNav = document.getElementById('bottomNavContainer');
             if (currentFilterType === 'search' || currentFilterType === 'all') {
@@ -512,8 +519,8 @@
                 const nextIdx = (idx + 1) % globalBrandOrder.length;
                 prevName = globalBrandOrder[prevIdx];
                 nextName = globalBrandOrder[nextIdx];
-                prevFunc = `showBrand('${prevName}')`;
-                nextFunc = `showBrand('${nextName}')`;
+                prevFunc = `showBrand(this.getAttribute('data-action'))" data-action="${prevName.replace(/"/g, '&quot;')}`;
+                nextFunc = `showBrand(this.getAttribute('data-action'))" data-action="${nextName.replace(/"/g, '&quot;')}`;
             } else if (currentFilterType === 'category') {
                 const idx = globalCatOrder.indexOf(currentFilterValue);
                 if (idx === -1) return;
@@ -526,8 +533,8 @@
                 prevName = currentLang === 'km' ? prevCat.categoryKm : prevCat.categoryZh;
                 nextName = currentLang === 'km' ? nextCat.categoryKm : nextCat.categoryZh;
                 
-                prevFunc = `showCategory('${globalCatOrder[prevIdx]}')`;
-                nextFunc = `showCategory('${globalCatOrder[nextIdx]}')`;
+                prevFunc = `showCategory(this.getAttribute('data-action'))" data-action="${globalCatOrder[prevIdx].replace(/"/g, '&quot;')}`;
+                nextFunc = `showCategory(this.getAttribute('data-action'))" data-action="${globalCatOrder[nextIdx].replace(/"/g, '&quot;')}`;
             }
 
             bottomNav.innerHTML = `
