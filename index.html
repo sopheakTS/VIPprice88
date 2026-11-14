@@ -201,11 +201,9 @@
     </div>
 
     <!-- JS Logic -->
-<!-- JS Logic -->
-<script>
+    <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbw-QihTeMYtZM0YqpS8MiEqa9Kqy5gZu1ijRX6zwOeHwVlYB0J3vCPfIw_PIXQNtXK3/exec'; 
         
-        // ប្រើប្រាស់ COL_VIP_PRICE ឡើងវិញ
         const COL_NAME_KM = 0; const COL_NAME_ZH = 1; const COL_CODE = 2; const COL_VARIANT = 4;
         const COL_SALE_PRICE = 5; const COL_VIP_PRICE = 6; const COL_BRAND = 8;
         const COL_CATEGORY_KM = 9; const COL_CATEGORY_ZH = 10; const COL_PHOTO = 14;
@@ -309,7 +307,6 @@
                     result.push({
                         nameKm: String(row[COL_NAME_KM] || ''), nameZh: String(row[COL_NAME_ZH] || ''),
                         code: String(row[COL_CODE] || ''), variant: String(row[COL_VARIANT] || ''),
-                        // ទាញយកតម្លៃទាំង២មកវិញ
                         salePrice: String(row[COL_SALE_PRICE] || ''), vipPrice: String(row[COL_VIP_PRICE] || ''),
                         brand: String(row[COL_BRAND] || 'Other'), categoryKm: String(row[COL_CATEGORY_KM] || 'Uncategorized'),
                         categoryZh: String(row[COL_CATEGORY_ZH] || row[COL_CATEGORY_KM] || 'Uncategorized'),
@@ -484,7 +481,7 @@
             const safeVariantRaw = (p.variant || '').replace(/'/g, "\\'");
             const brandBadge = p.brand ? `<div class="w-8 h-8 rounded bg-blue-900 text-white flex items-center justify-center text-[9px] font-bold shadow">${p.brand.substring(0,4).toUpperCase()}</div>` : '';
 
-            // មុខងារកំណត់ទម្រង់លេខ ០.០០ $ 
+            // Format price to .00 $
             function formatPrice(val) {
                 if (!val || String(val).trim() === '') return '';
                 const num = parseFloat(val);
@@ -493,9 +490,6 @@
 
             const formattedSale = formatPrice(p.salePrice);
             const formattedVip = formatPrice(p.vipPrice);
-            
-            // ឆែកមើលថាតើទំនិញនេះពិតជាមានការបញ្ចុះតម្លៃមែនទេ? (តម្លៃទាំង២ខុសគ្នា)
-            const hasDiscount = formattedSale && formattedVip && (formattedSale !== formattedVip);
 
             return `<div class="bg-white rounded-2xl border border-slate-200 p-3 hover:shadow-xl hover:border-amber-300 transition-all flex flex-col justify-between cursor-pointer group" onclick="openModal('${imgSrc}', '${safeName}', '${p.code}', '${safeVariantRaw}')">
                 <div class="mb-3 bg-[#f8fafc] rounded-xl p-2 flex items-center justify-center h-32 md:h-44 relative overflow-hidden">
@@ -507,11 +501,10 @@
                     <div class="text-[10px] text-slate-400 font-mono mb-2">${p.code}</div>
                 </div>
                 <div class="flex items-end justify-between mt-1 pt-2 border-t border-slate-100">
-                    <div class="flex flex-col">
-                        ${hasDiscount ? `<span class="text-[10px] line-through text-slate-400 font-medium">${formattedSale}</span>` : ''}
-                        <span class="font-black text-red-600 text-sm md:text-base">${formattedVip || formattedSale || '-'}</span>
+                    <div class="flex flex-col gap-0.5 w-full pr-2">
+                        ${formattedSale ? `<div class="flex justify-between items-center text-xs"><span class="text-slate-500 font-medium">${currentLang === 'km' ? 'លក់រាយ:' : '零售:'}</span><span class="text-slate-700 font-bold">${formattedSale}</span></div>` : ''}
+                        ${formattedVip ? `<div class="flex justify-between items-center text-xs"><span class="text-amber-600 font-medium">${currentLang === 'km' ? 'បោះដុំ:' : '批发:'}</span><span class="font-black text-red-600">${formattedVip}</span></div>` : ''}
                     </div>
-                    ${brandBadge}
                 </div>
             </div>`;
         }
