@@ -348,9 +348,16 @@
                 products = parseJSONData(rawData);
                 buildHomeGrids();
                 
-                // ពិនិត្យមើល URL ពេលវេបសាយដើរដំបូង (បើមាន Link ចែករំលែកមកឲ្យចំ Category ណាមួយ)
+                // ពិនិត្យមើល URL ពេលវេបសាយដើរដំបូង (បន្ថែមការពិនិត្យមើលការស្វែងរក)
                 const params = new URLSearchParams(window.location.search);
-                if (params.get('category')) showCategory(params.get('category'), true);
+                if (params.get('q')) {
+                    searchInput.value = params.get('q');
+                    currentFilterType = 'search';
+                    homeView.classList.add('hidden'); aboutView.classList.add('hidden'); productView.classList.remove('hidden');
+                    updateSidebarInfo();
+                    filterData(true);
+                }
+                else if (params.get('category')) showCategory(params.get('category'), true);
                 else if (params.get('brand')) showBrand(params.get('brand'), true);
                 else if (params.get('page') === 'about') showAbout(true);
                 
@@ -442,7 +449,14 @@
         // ចាប់យកការចុចប៊ូតុង ថយក្រោយ (Back/Forward) របស់ Browser ដើម្បីដូរទំព័រទៅតាម URL វិញ
         window.addEventListener('popstate', (event) => {
             const params = new URLSearchParams(window.location.search);
-            if (params.get('category')) showCategory(params.get('category'), true);
+            if (params.get('q')) {
+                searchInput.value = params.get('q');
+                currentFilterType = 'search';
+                homeView.classList.add('hidden'); aboutView.classList.add('hidden'); productView.classList.remove('hidden');
+                updateSidebarInfo();
+                filterData(true);
+            }
+            else if (params.get('category')) showCategory(params.get('category'), true);
             else if (params.get('brand')) showBrand(params.get('brand'), true);
             else if (params.get('page') === 'about') showAbout(true);
             else showHome(true);
@@ -477,7 +491,7 @@
             document.getElementById('sidebarIcon').src = iconSrc;
         }
 
-        function filterData() {
+        function filterData(skipHistory = false) {
             const query = searchInput.value.toLowerCase().trim();
             let filtered = products;
 
@@ -491,6 +505,11 @@
 
             if (query !== '') {
                 filtered = filtered.filter(p => p.nameZh.toLowerCase().includes(query) || p.nameKm.toLowerCase().includes(query) || p.code.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query));
+                
+                // បន្ថែម History API សម្រាប់ពេលកំពុងស្វែងរក (លោត ?q=...)
+                if (!skipHistory && currentFilterType === 'search') {
+                    try { window.history.replaceState({type: 'search', val: query}, '', '?q=' + encodeURIComponent(query)); } catch (e) {}
+                }
             }
 
             document.getElementById('productCountBadge').innerText = filtered.length;
