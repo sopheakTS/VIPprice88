@@ -193,8 +193,8 @@
     <div id="imageModal" class="hidden fixed inset-0 z-[100] bg-slate-900/90 backdrop-blur-sm flex justify-center items-center p-4 transition-all" onclick="closeModal()">
         <div class="relative max-w-4xl w-full max-h-[90vh] bg-white rounded-3xl overflow-hidden p-4 shadow-2xl flex flex-col items-center" onclick="event.stopPropagation()">
             <button onclick="closeModal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-800 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl transition z-10">✕</button>
-            <div class="w-full overflow-y-auto max-h-[80vh] flex flex-col items-center">
-                <img id="modalImg" src="" class="max-h-[60vh] max-w-full object-contain mx-auto rounded-xl">
+            <div class="w-full overflow-y-auto max-h-[82vh] flex flex-col items-center">
+                <img id="modalImg" src="" class="max-h-[55vh] max-w-full object-contain mx-auto rounded-xl">
                 <div id="modalTitle" class="text-center font-bold text-slate-900 text-base md:text-lg py-4 px-4 mt-2 border-t w-full"></div>
             </div>
         </div>
@@ -309,7 +309,6 @@
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
                 if (row.length >= 2 && row[COL_NAME_KM]) {
-                    // មុខងារថ្មីសម្រាប់ចាប់យកលេខ 0 កុំឲ្យវាគិតថាទទេរ
                     const safeStr = (val) => (val !== null && val !== undefined && val !== '') ? String(val).trim() : '';
                     
                     result.push({
@@ -349,7 +348,6 @@
                 products = parseJSONData(rawData);
                 buildHomeGrids();
                 
-                // ពិនិត្យមើល URL ពេលវេបសាយដើរដំបូង (បើមាន Link ចែករំលែកមកឲ្យចំទំព័រណាមួយ)
                 const params = new URLSearchParams(window.location.search);
                 if (params.get('q')) {
                     searchInput.value = params.get('q');
@@ -395,7 +393,6 @@
                 </div>`;
             }).join('');
 
-            // បង្កើតប្រអប់ពិសេសចំនួន ២ (ទំនិញថ្មី និង ទំនិញទាំងអស់) ដាក់នៅខាងមុខប្រភេទទំនិញ
             const newArrivalsCard = `<div onclick="showNewArrivals()" class="bg-gradient-to-br from-red-50 to-white rounded-2xl border-2 border-red-200 p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all group">
                 <div class="h-16 md:h-20 w-16 md:w-20 rounded-2xl bg-red-600 text-white flex flex-col items-center justify-center mb-3 shadow-md group-hover:scale-110 transition">
                     <svg class="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
@@ -482,7 +479,6 @@
             }
         }
 
-        // ចាប់យកការចុចប៊ូតុង ថយក្រោយ (Back/Forward) របស់ Browser ដើម្បីដូរទំព័រទៅតាម URL វិញ
         window.addEventListener('popstate', (event) => {
             const params = new URLSearchParams(window.location.search);
             if (params.get('q')) {
@@ -522,13 +518,12 @@
             } else if (currentFilterType === 'search') {
                 title = currentLang === 'km' ? 'លទ្ធផលស្វែងរក' : '搜索结果'; subtitle = searchInput.value;
                 
-                // ស្វែងរកទំនិញទី១ដែលត្រូវនឹងពាក្យស្វែងរក ដើម្បីទាញយករូបភាពវាមកបង្ហាញតំណាង
                 const q = searchInput.value.toLowerCase().trim();
                 const matchedProduct = products.find(p => p.nameZh.toLowerCase().includes(q) || p.nameKm.toLowerCase().includes(q) || p.code.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
                 if (matchedProduct && matchedProduct.linkphoto) {
                     iconSrc = matchedProduct.linkphoto;
                 } else {
-                    iconSrc = 'https://placehold.co/150x150/f1f5f9/94a3b8?text=Search'; // រូបតំណាងពេលរកមិនឃើញ
+                    iconSrc = 'https://placehold.co/150x150/f1f5f9/94a3b8?text=Search';
                 }
             }
             document.getElementById('sidebarTitle').innerText = title;
@@ -550,7 +545,6 @@
             if (currentFilterType === 'category') filtered = filtered.filter(p => p.categoryKm === currentFilterValue);
             else if (currentFilterType === 'brand') filtered = filtered.filter(p => p.brand === currentFilterValue);
             else if (currentFilterType === 'new_arrivals') filtered = filtered.filter(p => p.newStock === '1');
-            // សម្រាប់ all_products យកទិន្នន័យទាំងអស់តាមលំដាប់តារាងពីលើចុះក្រោម និងបែងចែកតាមម៉ាកយីហោ
 
             if (query !== '') {
                 filtered = filtered.filter(p => p.nameZh.toLowerCase().includes(query) || p.nameKm.toLowerCase().includes(query) || p.code.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query));
@@ -605,7 +599,6 @@
             const safeVariantRaw = (p.variant || '').replace(/'/g, "\\'");
             const brandBadge = p.brand ? `<div class="w-8 h-8 rounded bg-blue-900 text-white flex items-center justify-center text-[9px] font-bold shadow shrink-0">${p.brand.substring(0,4).toUpperCase()}</div>` : '';
 
-            // Format price to .00 $
             function formatPrice(val) {
                 if (!val || String(val).trim() === '') return '';
                 const num = parseFloat(val);
@@ -614,18 +607,17 @@
 
             const formattedSale = formatPrice(p.salePrice);
             const formattedVip = formatPrice(p.vipPrice);
+            const safeSale = formattedSale.replace(/'/g, "\\'");
+            const safeVip = formattedVip.replace(/'/g, "\\'");
 
-            // ត្រួតពិនិត្យមុខងារ L, M, N (អស់ស្តុក, តម្លៃថ្មី, ទំនិញថ្មី)
             const isOutOfStock = p.stock === '0';
             const isPriceUpdate = p.priceUpdate === '1';
             const isNewStock = p.newStock === '1';
 
-            // បើអស់ស្តុក កាតទាំងមូលនឹងទៅជាពណ៌ប្រផេះ ហើយបន្ថយពន្លឺបន្តិច (grayscale opacity-60)
             const cardClass = isOutOfStock ? 'grayscale opacity-60' : 'hover:shadow-xl hover:border-amber-300';
             const imageHoverClass = isOutOfStock ? '' : 'group-hover:scale-110';
             const textHoverClass = isOutOfStock ? '' : 'group-hover:text-blue-700';
 
-            // បង្កើតប៉้ายសញ្ញា (Badges) នៅលើរូបភាព ផ្លាស់ប្តូរតាមភាសា (ខ្មែរ/ចិន)
             let labelsHtml = '<div class="absolute top-2 left-2 flex flex-col gap-1.5 z-10 items-start">';
             if (isNewStock) {
                 labelsHtml += `<span class="bg-red-600 text-white px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-bold shadow-sm tracking-wide">${currentLang === 'km' ? 'ទំនិញថ្មី' : '新货'}</span>`;
@@ -638,7 +630,7 @@
             }
             labelsHtml += '</div>';
 
-            return `<div class="bg-white rounded-2xl border border-slate-200 p-3 transition-all flex flex-col justify-between cursor-pointer group ${cardClass}" onclick="openModal('${imgSrc}', '${safeName}', '${p.code}', '${safeVariantRaw}')">
+            return `<div class="bg-white rounded-2xl border border-slate-200 p-3 transition-all flex flex-col justify-between cursor-pointer group ${cardClass}" onclick="openModal('${imgSrc}', '${safeName}', '${p.code}', '${safeVariantRaw}', '${safeSale}', '${safeVip}')">
                 <div class="mb-3 bg-[#f8fafc] rounded-xl p-2 flex items-center justify-center h-32 md:h-44 relative overflow-hidden">
                     ${labelsHtml}
                     <img src="${imgSrc}" class="max-h-full max-w-full object-contain mix-blend-multiply transition duration-500 ${imageHoverClass}" onerror="this.src='https://placehold.co/300?text=No+Image'">
@@ -713,10 +705,29 @@
             bottomNav.classList.remove('hidden');
         }
 
-        function openModal(imgSrc, name, code, rawVariant) {
+        function openModal(imgSrc, name, code, rawVariant, salePrice, vipPrice) {
             const displayVariant = translateVariant(rawVariant);
+            const saleLabel = currentLang === 'km' ? 'លក់រាយ:' : '零售:';
+            const vipLabel = currentLang === 'km' ? 'បោះដុំ:' : '批发:';
+
+            let priceHtml = '';
+            if (salePrice || vipPrice) {
+                priceHtml = `<div class='mt-3 flex flex-wrap justify-center items-center gap-2'>`;
+                if (salePrice) {
+                    priceHtml += `<div class='inline-flex items-baseline gap-1.5 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full'><span class='text-xs md:text-sm text-slate-500 font-semibold'>${saleLabel}</span><span class='text-base md:text-lg font-bold text-slate-800'>${salePrice}</span></div>`;
+                }
+                if (vipPrice) {
+                    priceHtml += `<div class='inline-flex items-baseline gap-1.5 bg-red-50 border border-red-200 px-4 py-1.5 rounded-full'><span class='text-xs md:text-sm text-amber-600 font-semibold'>${vipLabel}</span><span class='text-lg md:text-xl font-black text-red-600'>${vipPrice}</span></div>`;
+                }
+                priceHtml += `</div>`;
+            }
+
             modalImg.src = imgSrc;
-            modalTitle.innerHTML = `<span class='text-amber-600 font-mono mr-2'>[${code}]</span> ${name} ${displayVariant ? `<span class='text-slate-500 text-sm block mt-1'>(${displayVariant})</span>` : ''}`;
+            modalTitle.innerHTML = `
+                <div><span class='text-amber-600 font-mono mr-2'>[${code}]</span> ${name}</div>
+                ${displayVariant ? `<span class='text-slate-500 text-sm block mt-1'>(${displayVariant})</span>` : ''}
+                ${priceHtml}
+            `;
             imageModal.classList.remove('hidden');
         }
 
