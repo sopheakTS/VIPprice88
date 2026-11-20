@@ -331,7 +331,7 @@
             document.getElementById('aboutTimeLabel').innerText = currentLang === 'km' ? 'ម៉ោងធ្វើការ:' : '营业时间:';
             document.getElementById('aboutTimeVal').innerText = currentLang === 'km' ? 'ច័ន្ទ - អាទិត្យ (8:00 ព្រឹក - 5:00 ល្ងាច)' : '周一至周日 (上午 8:00 - 下午 5:00)';
             document.getElementById('aboutAddressLabel').innerText = currentLang === 'km' ? 'អាសយដ្ឋាន:' : '地址:';
-            document.getElementById('aboutAddressVal').innerText = currentLang === 'km' ? '[សង្កាត់ព្រៃស ខណ្ឌដង្កោរ រាជធានីភ្នំពេញ]' : '[在此处输入您的店铺地址]';
+            document.getElementById('aboutAddressVal').innerText = currentLang === 'km' ? 'សង្កាត់ព្រៃស ខណ្ឌដង្កោរ រាជធានីភ្នំពេញ' : '金边市朗哥区白梳分区';
             document.getElementById('aboutMapLabel').innerText = currentLang === 'km' ? 'ទីតាំងផែនទី (ចុចដើម្បីមើល)' : '地图位置 (点击查看)';
 
             buildHomeGrids();
@@ -482,13 +482,13 @@
                 }).join('')
                 : `<div class="col-span-full text-center text-slate-400 text-sm py-6">${currentLang === 'km' ? 'មិនទាន់មានទិន្នន័យម៉ាកយីហោ' : '暂无品牌数据'}</div>`;
 
-            // ប្រអប់ពិសេសចំនួន ២ (ទំនិញថ្មី និង ទំនិញទាំងអស់) ដាក់នៅខាងមុខប្រភេទទំនិញ
+            // ប្រអប់ពិសេសចំនួន ២ (ស្តុកថ្មី និង ទំនិញទាំងអស់) ដាក់នៅខាងមុខប្រភេទទំនិញ
             const newArrivalsCard = `<div onclick="showNewArrivals()" class="bg-gradient-to-br from-red-50 to-white rounded-2xl border-2 border-red-200 p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all group">
                 <div class="h-16 md:h-20 w-16 md:w-20 rounded-2xl bg-red-600 text-white flex flex-col items-center justify-center mb-3 shadow-md group-hover:scale-110 transition">
                     <svg class="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                     <span class="text-[9px] font-black tracking-wider mt-0.5">NEW</span>
                 </div>
-                <span class="font-extrabold text-sm text-red-600 text-center line-clamp-1">${currentLang === 'km' ? 'ទំនិញថ្មី' : '新货'}</span>
+                <span class="font-extrabold text-sm text-red-600 text-center line-clamp-1">${currentLang === 'km' ? 'ស្តុកថ្មី' : '新货'}</span>
             </div>`;
 
             const allProductsCard = `<div onclick="showAllProducts()" class="bg-gradient-to-br from-blue-50 to-white rounded-2xl border-2 border-blue-200 p-4 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all group">
@@ -607,7 +607,7 @@
                 const safeBrand = String(currentFilterValue).trim().toUpperCase();
                 iconSrc = brandLogos[safeBrand] || `https://placehold.co/200x100/ffffff/0c1439?text=${safeUrlEncode(currentFilterValue)}`;
             } else if (currentFilterType === 'new_arrivals') {
-                title = currentLang === 'km' ? 'ទំនិញថ្មី' : '新货'; subtitle = currentLang === 'km' ? 'ទំនិញចូលស្តុកថ្មី' : '最新到货';
+                title = currentLang === 'km' ? 'ស្តុកថ្មី' : '新货'; subtitle = currentLang === 'km' ? 'ទំនិញចូលស្តុកថ្មី' : '最新到货';
                 iconSrc = 'https://placehold.co/150x150/fef2f2/dc2626?text=NEW';
             } else if (currentFilterType === 'all_products') {
                 title = currentLang === 'km' ? 'ទំនិញទាំងអស់' : '全部商品'; subtitle = currentLang === 'km' ? 'បង្ហាញតាមលំដាប់តារាង' : '按列表顺序显示';
@@ -707,7 +707,7 @@
 
             let labelsHtml = '<div class="absolute top-2 left-2 flex flex-col gap-1.5 z-10 items-start">';
             if (isNewStock) {
-                labelsHtml += `<span class="bg-red-600 text-white px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-bold shadow-sm tracking-wide">${currentLang === 'km' ? 'ទំនិញថ្មី' : '新货'}</span>`;
+                labelsHtml += `<span class="bg-red-600 text-white px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-bold shadow-sm tracking-wide">${currentLang === 'km' ? 'ស្តុកថ្មី' : '新货'}</span>`;
             }
             if (isPriceUpdate) {
                 labelsHtml += `<span class="bg-blue-600 text-white px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-bold shadow-sm tracking-wide">${currentLang === 'km' ? 'តម្លៃថ្មី' : '新价'}</span>`;
